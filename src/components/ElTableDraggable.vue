@@ -6,8 +6,8 @@
 
 <script lang="ts">
   /* eslint-disable no-unused-vars */
-  import { Sortable } from "sortablejs";
-  // import getUa from "../utils/ua";
+  // import { Sortable } from "sortablejs";
+  import getUa from "../utils/ua";
   // import { CONFIG, DOM_MAPPING_NAME } from "../utils/options";
 
   // export default {

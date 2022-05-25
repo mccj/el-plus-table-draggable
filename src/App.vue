@@ -17,14 +17,14 @@
 </template>
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+// import { useRouter, useRoute } from 'vue-router'
 
 
 export default defineComponent({
   name: "App",
   setup() {
-    const router = useRouter()
-    const route = useRoute()
+    // const router = useRouter()
+    // const route = useRoute()
 
     const components: any = {};
     const componentNameMap: any = {};

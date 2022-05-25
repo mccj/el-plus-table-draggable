@@ -21,7 +21,7 @@ const elTableColumnRegexp = /el-table_\d*_column_\d*/;
  * @param {string} className
  * @return {number}
  */
-export function getLevelFromClassName(className) {
+export function getLevelFromClassName(className: string): number {
   const level = (LEVEL_REGEXP.exec(className) || [])[1] || 0;
   return +(level || 0);
 }
@@ -31,7 +31,7 @@ export function getLevelFromClassName(className) {
  * @param {number} level
  * @returns {string}
  */
-export function getLevelRowClassName(level) {
+export function getLevelRowClassName(level: number): string {
   return `el-table__row--level-${level}`;
 }
 
@@ -40,7 +40,7 @@ export function getLevelRowClassName(level) {
  * @param {Element} tr
  * @param {number} [targetLevel]
  */
-export function changeRowLevel(tr, targetLevel = 0) {
+export function changeRowLevel(tr: Element, targetLevel: number = 0) {
   const sourceLevel = getLevelFromClassName(tr.className);
   if (sourceLevel === targetLevel) {
     return;
@@ -70,7 +70,7 @@ export function cleanUp() {
  * 重设transform
  * @param {Element} el
  */
-function resetTransform(el) {
+function resetTransform(el: HTMLElement) {
   css(el, "transform", "");
   css(el, "transitionProperty", "");
   css(el, "transitionDuration", "");
@@ -82,7 +82,7 @@ function resetTransform(el) {
  * @param {boolean} ignoreTranslate
  * @returns {DOMRect}
  */
-export function getDomPosition(el, ignoreTranslate = true) {
+export function getDomPosition(el: HTMLElement, ignoreTranslate: boolean = true): DOMRect {
   const position = el.getBoundingClientRect().toJSON();
   const transform = el.style.transform;
   if (transform && ignoreTranslate) {
@@ -99,7 +99,7 @@ export function getDomPosition(el, ignoreTranslate = true) {
  * @param {string} transform
  * @param {number} animate
  */
-export function addAnimate(el, transform, animate = 0) {
+export function addAnimate(el: HTMLElement, transform: string, animate: number = 0) {
   el.classList.add(ANIMATED_CSS);
   css(el, "transitionProperty", `transform`);
   css(el, "transitionDuration", animate + "ms");
@@ -129,7 +129,7 @@ export function clearAnimate(targetList = []) {
  * @param {{x?: number, y?:number}} target
  * @returns {string}
  */
-export function getTransform(el, target) {
+export function getTransform(el: HTMLElement, target: { x?: number, y?: number }): string {
   const currentPostion = getDomPosition(el);
   const originPosition = getDomPosition(el, true);
   const { x, y } = target;
@@ -137,9 +137,8 @@ export function getTransform(el, target) {
     x: x !== undefined ? x : currentPostion.x,
     y: y !== undefined ? y : currentPostion.y,
   };
-  const transform = `translate(${toPosition.x - originPosition.x}px, ${
-    toPosition.y - originPosition.y
-  }px)`;
+  const transform = `translate(${toPosition.x - originPosition.x}px, ${toPosition.y - originPosition.y
+    }px)`;
   return transform;
 }
 
@@ -149,7 +148,7 @@ export function getTransform(el, target) {
  * @param {{x?: number, y?:number}} target
  * @returns {string}
  */
-export function translateTo(el, target) {
+export function translateTo(el: HTMLElement, target: { x?: number, y?: number }) {
   resetTransform(el);
   const transform = getTransform(el, target);
   addAnimate(el, transform)
@@ -161,7 +160,7 @@ export function translateTo(el, target) {
  * @param {Element} referenceNode
  * @param {number} animate
  */
-export function insertBefore(newNode, referenceNode, animate = 0) {
+export function insertBefore(newNode: HTMLElement, referenceNode: HTMLElement, animate: number = 0) {
   /**
    * 动画效果
    * @todo 如果是不同列表，动画方案更新
@@ -172,7 +171,7 @@ export function insertBefore(newNode, referenceNode, animate = 0) {
       // source
       const offset = newNode.offsetTop - referenceNode.offsetTop;
       if (offset !== 0) {
-        const subNodes = Array.from(newNode.parentNode.children);
+        const subNodes = Array.from(newNode.parentNode!.children);
         const indexOfNewNode = subNodes.indexOf(newNode);
         const indexOfReferenceNode = subNodes.indexOf(referenceNode);
         const nodes = subNodes
@@ -197,7 +196,7 @@ export function insertBefore(newNode, referenceNode, animate = 0) {
       clearAnimate();
     }, animate);
   }
-  referenceNode.parentNode.insertBefore(newNode, referenceNode);
+  referenceNode.parentNode?.insertBefore(newNode, referenceNode);
 }
 
 /**
@@ -206,7 +205,7 @@ export function insertBefore(newNode, referenceNode, animate = 0) {
  * @param {Element} referenceNode
  * @param {number} animate
  */
-export function insertAfter(newNode, referenceNode, animate = 0) {
+export function insertAfter(newNode: HTMLElement, referenceNode: HTMLElement, animate: number = 0) {
   const targetReferenceNode = referenceNode.nextSibling;
   insertBefore(newNode, targetReferenceNode, animate);
 }
@@ -218,7 +217,7 @@ export function insertAfter(newNode, referenceNode, animate = 0) {
  * @param {Element} nextNode
  * @param {number} animate
  */
-export function exchange(prevNode, nextNode, animate = 0) {
+export function exchange(prevNode: HTMLElement, nextNode: HTMLElement, animate:number = 0) {
   const exchangeList = [
     {
       from: prevNode,
@@ -231,7 +230,7 @@ export function exchange(prevNode, nextNode, animate = 0) {
   ];
   exchangeList.forEach(({ from, to }) => {
     const targetPosition = getDomPosition(to, false);
-    
+
     // 宽度需要修正
     const { width } = getDomPosition(from, false)
     const targetWidth = targetPosition.width
@@ -247,8 +246,8 @@ export function exchange(prevNode, nextNode, animate = 0) {
 /**
  * @param {Element} el
  */
-export function remove(el) {
-  el.parentElement.removeChild(el);
+export function remove(el: HTMLElement) {
+  el.parentElement?.removeChild(el);
 }
 
 /**
@@ -257,7 +256,7 @@ export function remove(el) {
  * @param {Element} th
  * @returns {NodeListOf<Element>}
  */
-export function getTdListByTh(th) {
+export function getTdListByTh(th: HTMLElement) {
   const className = Array.from(th.classList).find((className) =>
     elTableColumnRegexp.test(className)
   );
@@ -270,7 +269,7 @@ export function getTdListByTh(th) {
  * @param {Element} th
  * @returns {Element}
  */
- export function getColByTh(th) {
+export function getColByTh(th: HTMLElement) {
   const className = Array.from(th.classList).find((className) =>
     elTableColumnRegexp.test(className)
   );
@@ -293,14 +292,14 @@ export const alignmentTableByThList = throttle(function alignmentTableByThList(
     });
   });
 },
-1000 / 120);
+  1000 / 120);
 
 /**
  * 切换row的打开还是关闭
  * @param {import('./options.js').DomInfo} domInfo
  * @param {boolean} expanded 是否收起
  */
-export function toggleExpansion(domInfo, expanded = true) {
+export function toggleExpansion(domInfo, expanded:number = true) {
   // 插入排序需要倒序插入
   domInfo.childrenList
     .slice()
@@ -332,7 +331,7 @@ export function toggleExpansion(domInfo, expanded = true) {
  * @param {number} level
  * @param {number} indent
  */
-export function changeDomInfoLevel(domInfo, level = 0, indent = 16) {
+export function changeDomInfoLevel(domInfo, level:number = 0, indent:number = 16) {
   const { el } = domInfo;
   domInfo.level = level;
   changeRowLevel(el, level);
@@ -359,20 +358,20 @@ export function changeDomInfoLevel(domInfo, level = 0, indent = 16) {
  * @param {Element} a
  * @param {Element} b
  */
-export function swapDom(a, b) {
-  const p1= a.parentNode
-  const p2= b.parentNode
-  let sib = b.nextSibling; 
-  if(sib=== a) {
-    sib= sib.nextSibling
+export function swapDom(a: HTMLElement, b: HTMLElement) {
+  const p1 = a.parentNode
+  const p2 = b.parentNode
+  let sib = b.nextSibling;
+  if (sib === a) {
+    sib = sib.nextSibling
   }
-  p1.replaceChild(b, a); 
-  if(sib) {
-    p2.insertBefore(a, sib)
+  p1?.replaceChild(b, a);
+  if (sib) {
+    p2?.insertBefore(a, sib)
   } else {
-    p2.appendChild(a)
-  } 
-  return true; 
+    p2?.appendChild(a)
+  }
+  return true;
 }
 
 export default {
