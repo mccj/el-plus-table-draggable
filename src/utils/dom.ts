@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* eslint-disable no-unused-vars */
 import throttle from "lodash/throttle";
 import Sortable from "sortablejs";

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { getLevelFromClassName } from "./dom";
 /**
  * 判断当前表格是否已经树状展开了

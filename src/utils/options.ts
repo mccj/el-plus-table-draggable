@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* eslint-disable no-unreachable */
 /* eslint-disable no-unused-vars */
 /**
@@ -43,7 +44,7 @@ export const DOM_MAPPING_NAME = "_mapping";
  * @param {Map<Element, Vue>} context
  * @param {(tableInstance: Vue) => any} handler
  */
-function updateElTableInstance(from, to, context, handler) {
+function updateElTableInstance(from: HTMLElement, to: HTMLElement, context:Map<Element, Vue>, handler:(tableInstance: Vue) => any) {
   const affected = from === to ? [from] : [from, to];
   affected.forEach((table) => {
     if (context.has(table)) {
@@ -61,7 +62,7 @@ function updateElTableInstance(from, to, context, handler) {
  * @param {any[]} toList
  * @param {import('@types/sortablejs').PullResult} pullMode
  */
-export function exchange(oldIndex, fromList, newIndex, toList, pullMode) {
+export function exchange(oldIndex:number, fromList, newIndex:number, toList, pullMode) {
   // 核心交换
   const target = fromList[oldIndex];
   // move的情况

@@ -5,37 +5,37 @@
 </template>
 
 <script lang="ts">
-  /* eslint-disable no-unused-vars */
-  // import { Sortable } from "sortablejs";
-  import getUa from "../utils/ua";
-  // import { CONFIG, DOM_MAPPING_NAME } from "../utils/options";
+/* eslint-disable no-unused-vars */
+// import { Sortable } from "sortablejs";
+import getUa from "../utils/ua";
+import { CONFIG, DOM_MAPPING_NAME } from "../utils/options";
 
-  // export default {
-  //   name: "ElementUiElTableDraggable",
-  //   props: {
-  //     tag: {
-  //       type: String,
-  //       default: "div",
-  //     },
-  //     column: {
-  //       type: Boolean,
-  //       default: false,
-  //     },
-  //     value: {
-  //       type: Array,
-  //     },
-  //     animation: {
-  //       type: Number,
-  //       default: 300,
-  //     },
-  //     multiDrag: {
-  //       type: Boolean,
-  //       default: false,
-  //     },
-  //     onMove: {
-  //       type: Function,
-  //     },
-  //   },
+export default {
+  name: "ElementUiElTableDraggable",
+  props: {
+    tag: {
+      type: String,
+      default: "div",
+    },
+    column: {
+      type: Boolean,
+      default: false,
+    },
+    value: {
+      type: Array,
+    },
+    animation: {
+      type: Number,
+      default: 300,
+    },
+    multiDrag: {
+      type: Boolean,
+      default: false,
+    },
+    onMove: {
+      type: Function,
+    },
+  },
   //   data() {
   //     return {
   //       // eslint-disable-next-line vue/no-reserved-keys
@@ -158,30 +158,30 @@
   //   beforeUnmount() {
   //     this.destroy();
   //   },
-  // };
+};
 </script>
 <style>
-  .dominfo-placeholder {
-    height: 5px;
-    display: block;
-    overflow: hidden;
-  }
+.dominfo-placeholder {
+  height: 5px;
+  display: block;
+  overflow: hidden;
+}
 
-  .el-table-draggable__empty-table {
-    min-height: 60px;
-  }
+.el-table-draggable__empty-table {
+  min-height: 60px;
+}
 
-  .el-table-draggable__empty-table table {
-    width: 100%;
-    height: 100%;
-    min-height: 60px;
-    position: absolute;
-    z-index: 99;
-  }
+.el-table-draggable__empty-table table {
+  width: 100%;
+  height: 100%;
+  min-height: 60px;
+  position: absolute;
+  z-index: 99;
+}
 
-  .el-table-draggable__empty-table tbody {
-    position: absolute;
-    width: 100%;
-    min-height: 100%;
-  }
+.el-table-draggable__empty-table tbody {
+  position: absolute;
+  width: 100%;
+  min-height: 100%;
+}
 </style>
