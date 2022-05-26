@@ -2,7 +2,7 @@
   <div>
     <el-row :gutter="20">
       <el-col :key="index" :span="24 / lists.length" v-for="(list, index) of lists">
-        <ElTableDraggable :group="{ name: 'cloneMultiTable', pull: 'clone' }" v-on="$listeners">
+        <!-- <ElTableDraggable group="multiTable" v-on="$listeners"> -->
           <el-table :data="list" row-key="id">
             <el-table-column
               :key="column.key"
@@ -11,32 +11,32 @@
               v-for="column of columns"
             ></el-table-column>
           </el-table>
-        </ElTableDraggable>
-        <ListViewer :value="list" />
+        <!-- </ElTableDraggable>
+        <ListViewer :value="list" /> -->
       </el-col>
     </el-row>
-    <CodeViewer :code="code" lang="html" />
+    <!-- <CodeViewer :code="code" lang="html" /> -->
   </div>
 </template>
 
-<script>
-export const name = "克隆"
-export const nameEn = 'Clone'
+<script lang="ts">
+export const name = "多表格相互拖拽"
+export const nameEn = 'Multi Table'
 import { createData, columns } from '../utils/createTable'
 export default {
-  data() {
+  setup() {
     return {
       columns,
-      lists: Array.from(new Array(2)).map((key, index) => createData(index + 2)),
+      lists: [createData(6), []],
       code: `
 <!-- 列表 -->            
-<ElTableDraggable :group="{name: 'cloneMultiTable', pull: 'clone'}">
+<ElTableDraggable group="multiTable">
   <el-table>
   </el-table>
 </ElTableDraggable>
 
 <!-- 另一个 -->
-<ElTableDraggable :group="{name: 'cloneMultiTable', pull: 'clone'}">
+<ElTableDraggable group="multiTable">
   <el-table>
   </el-table>
 </ElTableDraggable>            

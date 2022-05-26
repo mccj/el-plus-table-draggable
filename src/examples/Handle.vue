@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ElTableDraggable handle=".el-icon-rank" v-on="$listeners">
+    <!-- <ElTableDraggable handle=".el-icon-rank" v-on="$listeners"> -->
       <el-table :data="list" row-key="id">
         <el-table-column width="30">
           <i class="el-icon-rank" />
@@ -12,18 +12,18 @@
           v-for="column of columns"
         ></el-table-column>
       </el-table>
-    </ElTableDraggable>
+    <!-- </ElTableDraggable>
     <ListViewer :value="list" />
-    <CodeViewer :code="code" language="html"></CodeViewer>
+    <CodeViewer :code="code" language="html"></CodeViewer> -->
   </div>
 </template>
 
-<script>
+<script lang="ts">
 export const name = "Handle可拖拽"
 export const nameEn = 'Handle'
 import { createData, columns } from '../utils/createTable'
 export default {
-  data() {
+  setup() {
     return {
       columns,
       list: createData(),

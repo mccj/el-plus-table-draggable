@@ -1,9 +1,9 @@
 <template>
   <div>
-    <ElTableDraggable
+    <!-- <ElTableDraggable
       group="singleTable"
       v-on="$listeners"
-    >
+    > -->
       <el-table
         :data="list"
         :default-expand-all="true"
@@ -43,21 +43,21 @@
           v-for="column of columns"
         ></el-table-column>
       </el-table>
-    </ElTableDraggable>
+    <!-- </ElTableDraggable>
     <ListViewer :value="list" />
     <CodeViewer
       :code="code"
       lang="html"
-    />
+    /> -->
   </div>
 </template>
 
-<script>
+<script lang="ts">
 export const name = "单表格有展开行"
 export const nameEn = 'Single Table with expanded'
 import { createData, columns } from '../utils/createTable'
 export default {
-  data() {
+  setup() {
     return {
       columns,
       list: createData(3).map((item, index) => ({

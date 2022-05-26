@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ElTableDraggable v-on="$listeners">
+    <!-- <ElTableDraggable v-on="$listeners"> -->
       <el-table :data="list" row-key="index" default-expand-all>
         <el-table-column
           :key="column.key"
@@ -9,18 +9,18 @@
           v-for="column of columns"
         ></el-table-column>
       </el-table>
-    </ElTableDraggable>
+    <!-- </ElTableDraggable>
     <ListViewer :value="list" />
-    <CodeViewer :code="code" language="html"></CodeViewer>
+    <CodeViewer :code="code" language="html"></CodeViewer> -->
   </div>
 </template>
 
-<script>
+<script lang="ts">
   export const name = "树状表格拖拽";
   export const nameEn = "Tree Table Draggable";
   import { createData, columns } from "../utils/createTable";
   export default {
-    data() {
+  setup() {
       return {
         columns,
         list: createData(2).map((item) => ({

@@ -1,10 +1,10 @@
 <template>
   <div>
-    <ElTableDraggable group="multiTableNestingMix" v-on="$listeners">
+    <!-- <ElTableDraggable group="multiTableNestingMix" v-on="$listeners"> -->
       <el-table :data="list" row-key="id">
         <el-table-column label type="expand">
           <template v-slot="{row}">
-            <ElTableDraggable group="multiTableNestingMix" v-on="$listeners">
+            <!-- <ElTableDraggable group="multiTableNestingMix" v-on="$listeners"> -->
               <el-table :data="row.subList" row-key="id">
                 <el-table-column
                   :key="column.key"
@@ -13,7 +13,7 @@
                   v-for="column of columns"
                 ></el-table-column>
               </el-table>
-            </ElTableDraggable>
+            <!-- </ElTableDraggable> -->
           </template>
         </el-table-column>
         <el-table-column
@@ -23,18 +23,18 @@
           v-for="column of columns"
         ></el-table-column>
       </el-table>
-    </ElTableDraggable>
+    <!-- </ElTableDraggable>
     <ListViewer :value="list" />
-    <CodeViewer :code="code" lang="html" />
+    <CodeViewer :code="code" lang="html" /> -->
   </div>
 </template>
 
-<script>
+<script lang="ts">
 export const name = "表格嵌套"
 export const nameEn = 'Table Nestint'
 import { createData, columns } from '../utils/createTable'
 export default {
-  data() {
+  setup() {
     return {
       columns,
       list: createData(2).map(item => ({
