@@ -37,23 +37,17 @@ export default defineComponent({
       type: Function,
     },
   },
-  setup(props//, ctx
-  ) {
-    // debugger;
-    // const defaults = ctx.slots.default();
-    // var test = this.$children[0].$el.querySelector(WRAPPER);
-
+  setup(props, ctx) {
     let wrapper = ref<HTMLDivElement>();
     const windowAny: any = window;
+
     // eslint-disable-next-line vue/no-reserved-keys
     let _sortable: Sortable | null = null;
     let table: HTMLElement | null = null;
-    //当前组件的实例
-    const instance = getCurrentInstance();
 
     const init = () => {
       var wrapperValue = wrapper.value;
-      console.log(wrapperValue);
+      // console.log(wrapperValue);
 
 
       const context = windowAny.__ElTableDraggableContext as Map<any, any>;
@@ -64,53 +58,53 @@ export default defineComponent({
 
       destroy();
       const ua = getUa();
-      // debugger
 
       const { WRAPPER, DRAGGABLE, OPTION } = CONFIG[props.column ? "COLUMN" : "ROW"];
 
       table = elTableContext.querySelector(WRAPPER);
 
       context.set(table, elTableContext);
-      //   const vm = this;
-      //   const { animation } = this;
 
       // 根据不同种类自动注册的option
-      //   const sortableOptions = OPTION(context, elTableContext, animation);
+      // const sortableOptions = OPTION(context, elTableContext, props.animation);
 
       _sortable = Sortable.create(table!, {
         delay: ua.isPc ? 0 : 300,
-        //     // 绑定sortable的option
-        //     animation,
-        //     ...vm.$attrs,
+        // 绑定sortable的option
+        animation: props.animation,
+        ...ctx.attrs,
         draggable: DRAGGABLE,
-        //     // 绑定那些监听了的事件
-        //     ...Object.keys(vm.$listeners).reduce((events, key) => {
-        //       const handler = vm.$listeners[key];
-        //       // 首字母大写
-        //       const eventName = `on${key.replace(
-        //         /\b(\w)(\w*)/g,
-        //         function ($0, $1, $2) {
-        //           return $1.toUpperCase() + $2.toLowerCase();
-        //         }
-        //       )}`;
+        // 绑定那些监听了的事件
+        ...Object.keys(ctx.attrs).reduce((events: any, key) => {
+          const handler = ctx.attrs[key];
+          // 首字母大写
+          const eventName = `on${key.replace(
+            /\b(\w)(\w*)/g,
+            function ($0, $1, $2) {
+              return $1.toUpperCase() + $2.toLowerCase();
+            }
+          )}`;
 
-        //       events[eventName] = (...args) => handler(...args);
+          //       events[eventName] = (...args) => handler(...args);
 
-        //       return events;
-        //     }, {}),
-        //     // 绑定生成的那些options
-        //     ...Object.keys(sortableOptions).reduce((options, event) => {
-        //       const eventHandler = sortableOptions[event];
-        //       options[event] = function (...args) {
-        //         if (event !== "onMove") {
-        //           vm.$emit(event, ...args);
-        //         }
-        //         return eventHandler(...args);
-        //       };
-        //       return options;
-        //     }, {}),
+          return events;
+        }, {}),
+
+        // 绑定生成的那些options
+        // ...Object.keys(sortableOptions).reduce((options: any, event) => {
+        //   debugger
+        //   // const eventHandler = sortableOptions[event];
+        //   //       options[event] = function (...args) {
+        //   //         if (event !== "onMove") {
+        //   //           vm.$emit(event, ...args);
+        //   //         }
+        //   //         return eventHandler(...args);
+        //   //       };
+        //   //       return options;
+        // }, {}),
       });
     };
+
     const destroy = () => {
       if (_sortable) {
         /**
@@ -141,15 +135,40 @@ export default defineComponent({
       }
     };
 
+    watch(
+      () => props.column,
+      () => init()
+    );
+
+    watch(
+      () => ctx.attrs,
+      () => {
+        // deep: true,
+        //       handler(options) {
+        //         if (this._sortable) {
+        //           // 排除事件，目前sortable没有on开头的属性
+        //           const keys = Object.keys(options).filter(
+        //             (key) => key.indexOf("on") !== 0
+        //           );
+        //           keys.forEach((key) => {
+        //             this._sortable.option(key, options[key]);
+        //           });
+        //         }
+        //       },
+      }
+    );
+
     onMounted(() => {
       if (!windowAny.__ElTableDraggableContext) {
         windowAny.__ElTableDraggableContext = new Map();
       }
       init();
     });
+
     onBeforeUnmount(() => {
       destroy();
     })
+
     return { wrapper };
   },
   //   data() {
