@@ -5,13 +5,13 @@
 </template>
 
 <script lang="ts">
-import { ref, onMounted, watch, getCurrentInstance } from "vue";
+import { defineComponent, ref, onMounted, watch, getCurrentInstance, onBeforeUnmount } from "vue";
 /* eslint-disable no-unused-vars */
 import Sortable from "sortablejs";
 import getUa from "../utils/ua";
 import { CONFIG, DOM_MAPPING_NAME } from "../utils/options";
 
-export default {
+export default defineComponent({
   name: "ElementUiElTableDraggable",
   props: {
     tag: {
@@ -37,111 +37,119 @@ export default {
       type: Function,
     },
   },
-  setup(//props, ctx
+  setup(props//, ctx
   ) {
-    debugger;
+    // debugger;
     // const defaults = ctx.slots.default();
     // var test = this.$children[0].$el.querySelector(WRAPPER);
 
-    let wrapper = ref(null);
+    let wrapper = ref<HTMLDivElement>();
     const windowAny: any = window;
     // eslint-disable-next-line vue/no-reserved-keys
-    // const _sortable: Sortable = null;
-    // const table: HTMLElement = null;
+    let _sortable: Sortable | null = null;
+    let table: HTMLElement | null = null;
     //当前组件的实例
     const instance = getCurrentInstance();
 
-    // const init = () => {
-    //   const context = windowAny.__ElTableDraggableContext as Map<any, any>;
-    //   if (!this.$children[0] && !this.$children[0].$el) {
-    //     throw new Error("添加slot");
-    //   }
+    const init = () => {
+      var wrapperValue = wrapper.value;
+      console.log(wrapperValue);
 
-    //   destroy();
-    //   const ua = getUa();
 
-    //   const { WRAPPER, DRAGGABLE, OPTION } =
-    //     CONFIG[this.column ? "COLUMN" : "ROW"];
+      const context = windowAny.__ElTableDraggableContext as Map<any, any>;
+      const elTableContext = wrapperValue?.children[0];
+      if (!elTableContext) {
+        throw new Error("添加slot");
+      }
 
-    //   this.table = this.$children[0].$el.querySelector(WRAPPER);
+      destroy();
+      const ua = getUa();
+      debugger
 
-    //   const elTableContext = this.$children[0];
-    //   context.set(this.table, elTableContext);
-    //   const vm = this;
-    //   const { animation } = this;
+      const { WRAPPER, DRAGGABLE, OPTION } = CONFIG[props.column ? "COLUMN" : "ROW"];
 
-    //   // 根据不同种类自动注册的option
-    //   const sortableOptions = OPTION(context, elTableContext, animation);
+      table = elTableContext.querySelector(WRAPPER);
 
-    //   this._sortable = Sortable.create(this.table, {
-    //     delay: ua.isPc ? 0 : 300,
-    //     // 绑定sortable的option
-    //     animation,
-    //     ...vm.$attrs,
-    //     draggable: DRAGGABLE,
-    //     // 绑定那些监听了的事件
-    //     ...Object.keys(vm.$listeners).reduce((events, key) => {
-    //       const handler = vm.$listeners[key];
-    //       // 首字母大写
-    //       const eventName = `on${key.replace(
-    //         /\b(\w)(\w*)/g,
-    //         function ($0, $1, $2) {
-    //           return $1.toUpperCase() + $2.toLowerCase();
-    //         }
-    //       )}`;
+      context.set(table, elTableContext);
+      //   const vm = this;
+      //   const { animation } = this;
 
-    //       events[eventName] = (...args) => handler(...args);
+      // 根据不同种类自动注册的option
+      //   const sortableOptions = OPTION(context, elTableContext, animation);
 
-    //       return events;
-    //     }, {}),
-    //     // 绑定生成的那些options
-    //     ...Object.keys(sortableOptions).reduce((options, event) => {
-    //       const eventHandler = sortableOptions[event];
-    //       options[event] = function (...args) {
-    //         if (event !== "onMove") {
-    //           vm.$emit(event, ...args);
-    //         }
-    //         return eventHandler(...args);
-    //       };
-    //       return options;
-    //     }, {}),
-    //   });
-    // };
-    // const destroy = () => {
-    //   if (this._sortable) {
-    //     /**
-    //      * 销毁sortable
-    //      */
-    //     this._sortable.destroy();
-    //     this._sortable = null;
-    //     /**
-    //      * 销毁映射表和对应监听器
-    //      */
-    //     const domMapping = this.table[DOM_MAPPING_NAME];
-    //     if (domMapping) {
-    //       domMapping.stop();
-    //       domMapping.mapping.clear();
-    //       delete this.table[DOM_MAPPING_NAME];
-    //     }
-    //     /**
-    //      * 销毁表格
-    //      */
-    //     /** @type {WeakMap} */
-    //     const context = window.__ElTableDraggableContext;
-    //     if (context.has(this.table)) {
-    //       context.delete(this.table);
-    //     }
-    //     this.table = null;
-    //   }
-    // };
+      _sortable = Sortable.create(table!, {
+        delay: ua.isPc ? 0 : 300,
+        //     // 绑定sortable的option
+        //     animation,
+        //     ...vm.$attrs,
+        draggable: DRAGGABLE,
+        //     // 绑定那些监听了的事件
+        //     ...Object.keys(vm.$listeners).reduce((events, key) => {
+        //       const handler = vm.$listeners[key];
+        //       // 首字母大写
+        //       const eventName = `on${key.replace(
+        //         /\b(\w)(\w*)/g,
+        //         function ($0, $1, $2) {
+        //           return $1.toUpperCase() + $2.toLowerCase();
+        //         }
+        //       )}`;
+
+        //       events[eventName] = (...args) => handler(...args);
+
+        //       return events;
+        //     }, {}),
+        //     // 绑定生成的那些options
+        //     ...Object.keys(sortableOptions).reduce((options, event) => {
+        //       const eventHandler = sortableOptions[event];
+        //       options[event] = function (...args) {
+        //         if (event !== "onMove") {
+        //           vm.$emit(event, ...args);
+        //         }
+        //         return eventHandler(...args);
+        //       };
+        //       return options;
+        //     }, {}),
+      });
+    };
+    const destroy = () => {
+      if (_sortable) {
+        /**
+         * 销毁sortable
+         */
+        _sortable.destroy();
+        _sortable = null;
+        // /**
+        //  * 销毁映射表和对应监听器
+        //  */
+        let tableAny = table as any;
+        const domMapping = tableAny[DOM_MAPPING_NAME];
+        if (domMapping) {
+          debugger
+          domMapping.stop();
+          domMapping.mapping.clear();
+          delete tableAny[DOM_MAPPING_NAME];
+        }
+        /**
+         * 销毁表格
+         */
+        /** @type {WeakMap} */
+        const context = windowAny.__ElTableDraggableContext;
+        if (context.has(table)) {
+          context.delete(table);
+        }
+        table = null;
+      }
+    };
 
     onMounted(() => {
-      // debugger
       if (!windowAny.__ElTableDraggableContext) {
         windowAny.__ElTableDraggableContext = new Map();
       }
-      // init();
+      init();
     });
+    onBeforeUnmount(() => {
+      destroy();
+    })
     return { wrapper };
   },
   //   data() {
@@ -266,7 +274,7 @@ export default {
   //   beforeUnmount() {
   //     this.destroy();
   //   },
-};
+});
 </script>
 <style>
 .dominfo-placeholder {
