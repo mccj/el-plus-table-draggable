@@ -66,7 +66,7 @@ export default defineComponent({
       context.set(table, elTableContext);
 
       // 根据不同种类自动注册的option
-      // const sortableOptions = OPTION(context, elTableContext, props.animation);
+      const sortableOptions = OPTION(context, elTableContext, props.animation);
 
       _sortable = Sortable.create(table!, {
         delay: ua.isPc ? 0 : 300,
@@ -91,9 +91,9 @@ export default defineComponent({
         }, {}),
 
         // 绑定生成的那些options
-        // ...Object.keys(sortableOptions).reduce((options: any, event) => {
-        //   debugger
-        //   // const eventHandler = sortableOptions[event];
+        ...Object.keys(sortableOptions).reduce((options: any, event) => {
+          debugger
+          // const eventHandler = sortableOptions[event];
         //   //       options[event] = function (...args) {
         //   //         if (event !== "onMove") {
         //   //           vm.$emit(event, ...args);
@@ -101,7 +101,7 @@ export default defineComponent({
         //   //         return eventHandler(...args);
         //   //       };
         //   //       return options;
-        // }, {}),
+        }, {}),
       });
     };
 
@@ -143,18 +143,18 @@ export default defineComponent({
     watch(
       () => ctx.attrs,
       () => {
-        // deep: true,
-        //       handler(options) {
-        //         if (this._sortable) {
-        //           // 排除事件，目前sortable没有on开头的属性
-        //           const keys = Object.keys(options).filter(
-        //             (key) => key.indexOf("on") !== 0
-        //           );
-        //           keys.forEach((key) => {
-        //             this._sortable.option(key, options[key]);
-        //           });
-        //         }
-        //       },
+        ctx.attrs.deep = true;
+        ctx.attrs.handler = (options: any) => {
+          if (_sortable) {
+            // 排除事件，目前sortable没有on开头的属性
+            const keys = Object.keys(options).filter(
+              (key) => key.indexOf("on") !== 0
+            );
+            keys.forEach((key) => {
+              // _sortable?.option(key, options[key]);
+            });
+          }
+        }
       }
     );
 
