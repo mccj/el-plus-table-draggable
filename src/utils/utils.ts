@@ -15,6 +15,7 @@ export function checkIsTreeTable(tableInstance) {
  * @returns {(evt: Sortable.MoveEvent, originalEvent: Event) => boolean | void | 1 | -1}
  */
 export function getOnMove(tableInstance) {
+    // debugger
     const {
         $props: { onMove },
     } = tableInstance.$parent;
@@ -315,7 +316,7 @@ function rowAddPlaceholder() {
             }
         })
         // 修正所有tr的elIndex
-        const trWithProxyTrList = draggableTable.$el.querySelectorAll(
+        const trWithProxyTrList = draggableTable.querySelectorAll(
             `${CONFIG.ROW.WRAPPER} tr`
         )
         trWithProxyTrList.forEach((tr, index) => {

@@ -84,23 +84,24 @@ export default defineComponent({
               return $1.toUpperCase() + $2.toLowerCase();
             }
           )}`;
-
-          //       events[eventName] = (...args) => handler(...args);
+          // debugger
+          var thisAny = this as any;
+          events[eventName] = (...args: any[]) => thisAny.handler(...args);
 
           return events;
         }, {}),
 
         // 绑定生成的那些options
         ...Object.keys(sortableOptions).reduce((options: any, event) => {
-          debugger
-          // const eventHandler = sortableOptions[event];
-        //   //       options[event] = function (...args) {
-        //   //         if (event !== "onMove") {
-        //   //           vm.$emit(event, ...args);
-        //   //         }
-        //   //         return eventHandler(...args);
-        //   //       };
-        //   //       return options;
+          // debugger
+          const eventHandler = (sortableOptions as any)[event];
+          options[event] = function (...args: any[]) {
+            if (event !== "onMove") {
+              ctx.emit(event, ...args);
+            }
+            return eventHandler(...args);
+          };
+          return options;
         }, {}),
       });
     };

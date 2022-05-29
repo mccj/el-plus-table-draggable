@@ -119,10 +119,11 @@ export const CONFIG = {
              * 导致原因，default-expanded-all
              * 需要记录一下当前打开的行，结束之后还原状态（待定）
              */
+            // debugger
             draggableTable.store.states.defaultExpandAll = false;
 
             // 如果是空表格，增加一个css
-            const tableEl = draggableTable.$el.querySelector(
+            const tableEl = draggableTable.querySelector(
               ".el-table__body-wrapper table"
             );
             if (tableEl.clientHeight === 0) {
@@ -248,7 +249,7 @@ export const CONFIG = {
           ) {
             toDomInfo.index = newIndex;
           }
-
+// debugger
           /**
            * 数据层面的交换
            */
@@ -350,7 +351,7 @@ export const CONFIG = {
 
       return {
         onStart() {
-          const thList = Array.from(elTableInstance.$el.querySelector(CONFIG.COLUMN.WRAPPER).childNodes)
+          const thList = Array.from(elTableInstance.querySelector(CONFIG.COLUMN.WRAPPER).childNodes)
 
           colDomInfoList = thList.map(th => {
             const col = dom.getColByTh(th)

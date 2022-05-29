@@ -6,7 +6,7 @@
       if (!this.sortable) {
         return
       }
-      const rows = this.$el.querySelectorAll('.el-table__row')
+      const rows = this.querySelectorAll('.el-table__row')
       const orientation = index > targetIndex ? 1 : -1 // 方向参数 1 为向上 -1 为向下
       const offset = orientation * rows[index].offsetHeight // 单次位移的距离
 
@@ -85,7 +85,7 @@
         const array = this.data
         const target = array[index]
 
-        const rows = this.$el.querySelectorAll('.el-table__row')
+        const rows = this.querySelectorAll('.el-table__row')
         rows.forEach(row => {
           row.style.transition = ''
           row.style.transform = ''
