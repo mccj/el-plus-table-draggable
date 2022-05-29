@@ -1,54 +1,25 @@
 <template>
   <div>
-    <!-- <ElTableDraggable
-      group="singleTable"
-      v-on="$listeners"
-    > -->
-      <el-table
-        :data="list"
-        :default-expand-all="true"
-        row-key="id"
-      >
-        <el-table-column
-          label
-          type="expand"
-        >
-          <template v-slot="{row}">
+    <ElTableDraggable group="singleTable" v-on="$attrs">
+      <el-table :data="list" :default-expand-all="true" row-key="id">
+        <el-table-column label type="expand">
+          <template v-slot="{ row }">
             helloworld {{ row.index }}
-            <!-- <ElTableDraggable
-              group="singleTableExpanded"
-              v-on="$listeners"
-            >
-              <el-table
-                :data="row.subList"
-                :highlight-current-row="false"
-                :row-style="{background: '#F2F6FC'}"
-                :show-header="false"
-                row-key="id"
-              >
-                <el-table-column
-                  :key="column.key"
-                  :label="column.key"
-                  :prop="column.key"
-                  v-for="column of columns"
-                ></el-table-column>
+            <ElTableDraggable group="singleTableExpanded" v-on="$attrs">
+              <el-table :data="row.subList" :highlight-current-row="false" :row-style="{ background: '#F2F6FC' }"
+                :show-header="false" row-key="id">
+                <el-table-column :key="column.key" :label="column.key" :prop="column.key" v-for="column of columns">
+                </el-table-column>
               </el-table>
-            </ElTableDraggable>-->
+            </ElTableDraggable>
           </template>
         </el-table-column>
-        <el-table-column
-          :key="column.key"
-          :label="column.key"
-          :prop="column.key"
-          v-for="column of columns"
-        ></el-table-column>
+        <el-table-column :key="column.key" :label="column.key" :prop="column.key" v-for="column of columns">
+        </el-table-column>
       </el-table>
-    <!-- </ElTableDraggable>
+    </ElTableDraggable>
     <ListViewer :value="list" />
-    <CodeViewer
-      :code="code"
-      lang="html"
-    /> -->
+    <CodeViewer :value="code" />
   </div>
 </template>
 

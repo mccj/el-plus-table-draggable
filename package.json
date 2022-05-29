@@ -29,9 +29,12 @@
     "build:demo": "vue-cli-service build --dest examples"
   },
   "dependencies": {
+    "@codemirror/lang-html": "^0.20.0",
+    "@codemirror/lang-json": "^0.20.0",
     "core-js": "^3.8.3",
     "sortablejs": "^1.15.0",
-    "vue": "^3.2.13"
+    "vue": "^3.2.13",
+    "vue-codemirror": "^5.0.1"
   },
   "devDependencies": {
     "@types/mockjs": "^1.0.6",

@@ -2,20 +2,16 @@
   <div>
     <el-row :gutter="20">
       <el-col :key="index" :span="24 / lists.length" v-for="(list, index) of lists">
-        <!-- <ElTableDraggable :group="{ name: 'cloneMultiTable', pull: 'clone' }" v-on="$listeners"> -->
+        <ElTableDraggable :group="{ name: 'cloneMultiTable', pull: 'clone' }" v-on="$attrs">
           <el-table :data="list" row-key="id">
-            <el-table-column
-              :key="column.key"
-              :label="column.key"
-              :prop="column.key"
-              v-for="column of columns"
-            ></el-table-column>
+            <el-table-column :key="column.key" :label="column.key" :prop="column.key" v-for="column of columns">
+            </el-table-column>
           </el-table>
-        <!-- </ElTableDraggable>
-        <ListViewer :value="list" /> -->
+        </ElTableDraggable>
+        <ListViewer :value="list" />
       </el-col>
     </el-row>
-    <!-- <CodeViewer :code="code" lang="html" /> -->
+    <CodeViewer :value="code" />
   </div>
 </template>
 

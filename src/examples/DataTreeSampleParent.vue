@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- <ElTableDraggable v-on="$listeners" :onMove="onMove"> -->
+    <ElTableDraggable v-on="$attrs" :onMove="onMove">
       <el-table :data="list" row-key="index" default-expand-all>
         <el-table-column
           :key="column.key"
@@ -9,9 +9,9 @@
           v-for="column of columns"
         ></el-table-column>
       </el-table>
-    <!-- </ElTableDraggable>
+    </ElTableDraggable>
     <ListViewer :value="list" />
-    <CodeViewer :code="code" language="html"></CodeViewer> -->
+    <CodeViewer :value="code" />
   </div>
 </template>
 
@@ -36,7 +36,7 @@
         })),
         code: `
         <template>
-            <ElTableDraggable v-on="$listeners" :onMove="onMove">
+            <ElTableDraggable v-on="$attrs" :onMove="onMove">
               <el-table :data="list" row-key="index" default-expand-all></el-table>
             </ElTableDraggable>
         </template>

@@ -64,7 +64,7 @@ export default defineComponent({
 
       destroy();
       const ua = getUa();
-      debugger
+      // debugger
 
       const { WRAPPER, DRAGGABLE, OPTION } = CONFIG[props.column ? "COLUMN" : "ROW"];
 

@@ -1,31 +1,23 @@
 <template>
   <div>
-    <!-- <ElTableDraggable group="multiTableNestingMix" v-on="$listeners"> -->
+    <ElTableDraggable group="multiTableNestingMix" v-on="$attrs">
       <el-table :data="list" row-key="id">
         <el-table-column label type="expand">
-          <template v-slot="{row}">
-            <!-- <ElTableDraggable group="multiTableNestingMix" v-on="$listeners"> -->
+          <template v-slot="{ row }">
+            <ElTableDraggable group="multiTableNestingMix" v-on="$attrs">
               <el-table :data="row.subList" row-key="id">
-                <el-table-column
-                  :key="column.key"
-                  :label="column.key"
-                  :prop="column.key"
-                  v-for="column of columns"
-                ></el-table-column>
+                <el-table-column :key="column.key" :label="column.key" :prop="column.key" v-for="column of columns">
+                </el-table-column>
               </el-table>
-            <!-- </ElTableDraggable> -->
+            </ElTableDraggable>
           </template>
         </el-table-column>
-        <el-table-column
-          :key="column.key"
-          :label="column.key"
-          :prop="column.key"
-          v-for="column of columns"
-        ></el-table-column>
+        <el-table-column :key="column.key" :label="column.key" :prop="column.key" v-for="column of columns">
+        </el-table-column>
       </el-table>
-    <!-- </ElTableDraggable>
+    </ElTableDraggable>
     <ListViewer :value="list" />
-    <CodeViewer :code="code" lang="html" /> -->
+    <CodeViewer :value="code" />
   </div>
 </template>
 
